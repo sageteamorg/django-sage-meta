@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "django-sage-meta"
+version = "0.1.0"
+description = ""
+authors = ["radin qahremani <radinceorc77@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+facebook-sdk = "^3.1.0"
+django = "^5.0.7"
+psycopg2 = "^2.9.9"
+django-import-export = "^4.1.1"
+django-modeltranslation = "^0.19.5"
+python-sage-meta = "^0.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.11.1"
+pylint = "^3.2.6"
+black = "^24.4.2"
+sphinx = "^8.0.2"
+isort = "^5.13.2"
+commitizen = "^3.28.0"
+pre-commit = "^3.8.0"
+coverage = "^7.6.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | docs
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["sage_imap"]
+skip = ["docs"]
+
+[tool.mypy]
+mypy_path = "stubs"
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+explicit_package_bases = true
+exclude = '''
+^docs/source/conf.py|
+^build/|
+^tests/|
+^stubs/
+'''
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
