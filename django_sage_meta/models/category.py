@@ -4,12 +4,12 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Category(AdditionalDataMixin):
-    """
-    Model representing a category.
+    """Model representing a category.
 
     Attributes:
         category_id (str): The unique identifier for the category.
         name (str): The name of the category.
+
     """
 
     category_id = models.CharField(

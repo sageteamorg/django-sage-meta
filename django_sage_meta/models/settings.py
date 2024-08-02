@@ -4,14 +4,14 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Settings(AdditionalDataMixin):
-    """
-    Model representing application settings.
+    """Model representing application settings.
 
     Attributes:
         access_token (str): The access token for the API.
         business_account_id (str): The ID of the business account.
         user_id (str): The ID of the user.
         messenger_token (str): The token for Messenger API access.
+
     """
 
     access_token = models.CharField(

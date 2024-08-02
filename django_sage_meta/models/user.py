@@ -4,14 +4,14 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class UserData(AdditionalDataMixin):
-    """
-    Model representing user data.
+    """Model representing user data.
 
     Attributes```python
         user_id (str): The unique identifier for the user.
         name (str): The name of the user.
         email (str): The email of the user.
         pages (list): The list of Facebook pages associated with the user.
+
     """
 
     user_id = models.CharField(

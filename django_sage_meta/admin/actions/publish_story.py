@@ -1,10 +1,9 @@
 import logging
 from django.conf import settings
-from django.db import IntegrityError
-from django_sage_meta.models import PostPublisher
-from sage_meta.service import FacebookClient 
+from sage_meta.service import FacebookClient
 
 logger = logging.getLogger(__name__)
+
 
 def puth_story(modeladmin, request, queryset):
     client = FacebookClient(settings.FACEBOOK_ACCESS_TOKEN)
@@ -14,4 +13,6 @@ def puth_story(modeladmin, request, queryset):
         client.content_publisher.publish_story(
             obj.file_url,
         )
+
+
 puth_story.short_description = "Fetch and Save stories from Facebook"

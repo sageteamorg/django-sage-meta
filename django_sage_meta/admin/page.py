@@ -7,6 +7,7 @@ from django_sage_meta.models import FacebookPageData
 from django_sage_meta.resources import FacebookPageDataResource
 from django_sage_meta.admin.actions.page import fetch_and_save_pages
 
+
 @admin.register(FacebookPageData)
 class FacebookPageDataAdmin(ImportExportModelAdmin):
     resource_class = FacebookPageDataResource

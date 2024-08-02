@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class AccountInsight(AdditionalDataMixin):
-    """
-    Model representing an account insight.
+    """Model representing an account insight.
 
     Attributes:
         account_insight_id (str): The unique identifier for the account insight.
@@ -14,6 +13,7 @@ class AccountInsight(AdditionalDataMixin):
         values (list): The list of values for the account insight.
         title (str): The title of the account insight.
         description (str): The description of the account insight.
+
     """
 
     account_insight_id = models.CharField(

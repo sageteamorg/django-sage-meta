@@ -1,16 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django.http import HttpResponseRedirect
-from django.urls import path, reverse
-from import_export.admin import ImportExportModelAdmin
 
 from django_sage_meta.models import Category
-from django_sage_meta.resources import CategoryResource
 from django_sage_meta.admin.actions import fetch_and_save_categories
 
+
 @admin.register(Category)
-class CategoryAdmin(ImportExportModelAdmin):
-    resource_class = CategoryResource
+class CategoryAdmin:
     save_on_top = True
     list_display = ("id", "category_id", "name")
     search_fields = ("category_id", "name")

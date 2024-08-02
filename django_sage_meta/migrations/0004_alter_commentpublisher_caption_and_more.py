@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_sage_meta", "0003_remove_storypublisher_caption_and_more"),
     ]

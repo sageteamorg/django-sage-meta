@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_sage_meta", "0002_commentpublisher_postpublisher_storypublisher"),
     ]

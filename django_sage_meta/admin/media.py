@@ -7,6 +7,7 @@ from django_sage_meta.models import Media
 from django_sage_meta.resources import MediaResource
 from django_sage_meta.admin.actions.media import fetch_and_save_media
 
+
 @admin.register(Media)
 class MediaAdmin(ImportExportModelAdmin):
     resource_class = MediaResource
@@ -18,7 +19,7 @@ class MediaAdmin(ImportExportModelAdmin):
         "media_type",
         "like_count",
         "comments_count",
-        "username"
+        "username",
     )
     search_fields = ("media_id", "caption", "media_type")
     search_help_text = _("Search by Media ID, Caption, or Media Type")
