@@ -1,7 +1,4 @@
 from django.contrib import admin
-from django.urls import path
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_sage_meta.models import AccountInsight
 
@@ -31,18 +28,3 @@ class AccountInsightAdmin(admin.ModelAdmin):
     )
     autocomplete_fields = ["category"]
 
-    def get_urls(self):
-        urls = super().get_urls()
-        custom_urls = [
-            path(
-                "sync-values/",
-                self.admin_site.admin_view(self.sync_values),
-                name="sync_values",
-            ),
-        ]
-        return custom_urls + urls
-
-    def sync_values(self, request):
-        # Add your sync logic here
-        self.message_user(request, "Values have been synced.")
-        return HttpResponseRedirect(reverse("admin:app_accountinsight_changelist"))

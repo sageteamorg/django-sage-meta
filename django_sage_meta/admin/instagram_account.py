@@ -1,16 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from import_export.admin import ImportExportModelAdmin
 
 from django_sage_meta.models import InstagramAccount
-from django_sage_meta.resources import InstagramAccountResource
-from django_sage_meta.admin.actions.insta import fetch_and_save_instagram_accounts
 
 
 @admin.register(InstagramAccount)
-class InstagramAccountAdmin(ImportExportModelAdmin):
-    resource_class = InstagramAccountResource
+class InstagramAccountAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("id", "account_id", "username", "followers_count", "follows_count")
     search_fields = ("account_id", "username", "biography")
@@ -39,4 +35,3 @@ class InstagramAccountAdmin(ImportExportModelAdmin):
         ),
     )
     autocomplete_fields = ["media", "insights", "stories"]
-    actions = [fetch_and_save_instagram_accounts]

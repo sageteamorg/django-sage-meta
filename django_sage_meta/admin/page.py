@@ -1,16 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from import_export.admin import ImportExportModelAdmin
 
 from django_sage_meta.models import FacebookPageData
-from django_sage_meta.resources import FacebookPageDataResource
-from django_sage_meta.admin.actions.page import fetch_and_save_pages
 
 
 @admin.register(FacebookPageData)
-class FacebookPageDataAdmin(ImportExportModelAdmin):
-    resource_class = FacebookPageDataResource
+class FacebookPageDataAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("id", "page_id", "name", "category")
     search_fields = ("page_id", "name", "category")
@@ -29,4 +25,3 @@ class FacebookPageDataAdmin(ImportExportModelAdmin):
         ),
     )
     autocomplete_fields = ["instagram_business_account"]
-    actions = [fetch_and_save_pages]
