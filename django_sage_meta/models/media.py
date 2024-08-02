@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Media(AdditionalDataMixin):
-    """
-    Model representing media content.
+    """Model representing media content.
 
     Attributes:
         media_id (str): The unique identifier for the media.
@@ -16,6 +15,7 @@ class Media(AdditionalDataMixin):
         like_count (int): The number of likes on the media.
         comments_count (int): The number of comments on the media.
         comments (list): The list of comments on the media.
+
     """
 
     media_id = models.CharField(

@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class FacebookPageData(AdditionalDataMixin):
-    """
-    Model representing Facebook page data.
+    """Model representing Facebook page data.
 
     Attributes:
         page_id (str): The unique identifier for the Facebook page.
@@ -15,6 +14,7 @@ class FacebookPageData(AdditionalDataMixin):
         category_list (list): The list of categories for the Facebook page.
         tasks (list): The list of tasks for the Facebook page.
         instagram_business_account (InstagramAccount): The Instagram business account associated with the Facebook page.
+
     """
 
     page_id = models.CharField(

@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class InstagramAccount(AdditionalDataMixin):
-    """
-    Model representing an Instagram account.
+    """Model representing an Instagram account.
 
     Attributes:
         account_id (str): The unique identifier for the account.
@@ -19,6 +18,7 @@ class InstagramAccount(AdditionalDataMixin):
         media (list): The list of media items posted by this account.
         insights (list): The list of insights for this account.
         stories (list): The list of stories posted by this account.
+
     """
 
     account_id = models.CharField(

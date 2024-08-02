@@ -16,8 +16,7 @@ class CommentPublisher(models.Model):
         on_delete=models.CASCADE,
     )
 
-    caption = models.TextField(
-    )
+    caption = models.TextField()
     replay = models.ForeignKey(
         "self",
         verbose_name=_("replay"),

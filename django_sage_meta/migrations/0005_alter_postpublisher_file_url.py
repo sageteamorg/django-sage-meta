@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("django_sage_meta", "0004_alter_commentpublisher_caption_and_more"),
     ]

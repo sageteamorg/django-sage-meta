@@ -7,6 +7,7 @@ from django_sage_meta.models import Insight
 from django_sage_meta.resources import InsightResource
 from django_sage_meta.admin.actions import fetch_and_save_insights
 
+
 @admin.register(Insight)
 class InsightAdmin(ImportExportModelAdmin):
     resource_class = InsightResource
@@ -32,4 +33,3 @@ class InsightAdmin(ImportExportModelAdmin):
         ),
     )
     actions = [fetch_and_save_insights]
-

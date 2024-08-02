@@ -5,16 +5,15 @@ from django.utils.translation import gettext_lazy as _
 
 from ..helper.choice import ContentFileEnum
 
-class PostPublisher(models.Model):
 
+class PostPublisher(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE
     )
 
     file_url = models.TextField()
 
-    caption = models.TextField(
-    )
+    caption = models.TextField()
 
     kind = models.CharField(
         choices=ContentFileEnum.choices,

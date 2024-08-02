@@ -3,11 +3,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AdditionalDataMixin(models.Model):
-    """
-    Mixin representing additional data.
+    """Mixin representing additional data.
 
     Attributes:
         additional_data (dict): Any extra information that is not captured by other fields.
+
     """
 
     additional_data = models.JSONField(

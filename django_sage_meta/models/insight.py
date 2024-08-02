@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Insight(AdditionalDataMixin):
-    """
-    Model representing an insight.
+    """Model representing an insight.
 
     Attributes:
         insight_id (str): The unique identifier for the insight.
@@ -14,6 +13,7 @@ class Insight(AdditionalDataMixin):
         values (list): The list of values for the insight.
         title (str): The title of the insight.
         description (str): The description of the insight.
+
     """
 
     insight_id = models.CharField(

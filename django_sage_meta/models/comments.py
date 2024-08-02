@@ -4,8 +4,7 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Comment(AdditionalDataMixin):
-    """
-    Model representing a comment.
+    """Model representing a comment.
 
     Attributes:
         comment_id (str): The unique identifier for the comment.
@@ -13,6 +12,7 @@ class Comment(AdditionalDataMixin):
         username (str): The username of the commenter.
         like_count (int): The number of likes on the comment.
         timestamp (str): The timestamp of the comment.
+
     """
 
     comment_id = models.CharField(

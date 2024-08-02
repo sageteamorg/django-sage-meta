@@ -4,14 +4,14 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class Story(AdditionalDataMixin):
-    """
-    Model representing a story.
+    """Model representing a story.
 
     Attributes:
         story_id (str): The unique identifier for the story.
         media_type (str): The type of media in the story.
         media_url (str): The URL of the media in the story.
         timestamp (str): The timestamp of the story.
+
     """
 
     story_id = models.CharField(

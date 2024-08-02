@@ -7,6 +7,7 @@ from django_sage_meta.models import UserData
 from django_sage_meta.resources import UserDataResource
 from django_sage_meta.admin.actions.user import fetch_and_save_user_data
 
+
 @admin.register(UserData)
 class UserDataAdmin(ImportExportModelAdmin):
     resource_class = UserDataResource
