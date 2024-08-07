@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^5.0.7"
+django = "^5.0.8"
 python-sage-meta = "^0.1.0"
 
 
