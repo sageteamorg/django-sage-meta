@@ -1,16 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from import_export.admin import ImportExportModelAdmin
 
 from django_sage_meta.models import Story
-from django_sage_meta.resources import StoryResource
-from django_sage_meta.admin.actions.story import fetch_and_save_stories
 
 
 @admin.register(Story)
-class StoryAdmin(ImportExportModelAdmin):
-    resource_class = StoryResource
+class StoryAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("id", "story_id", "media_type", "media_url", "timestamp")
     search_fields = ("story_id", "media_type", "media_url")
@@ -20,4 +16,3 @@ class StoryAdmin(ImportExportModelAdmin):
     fieldsets = (
         ("Content", {"fields": ("story_id", "media_type", "media_url", "timestamp")}),
     )
-    actions = [fetch_and_save_stories]

@@ -1,15 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from import_export.admin import ImportExportModelAdmin
 
 from django_sage_meta.models import Comment
-from django_sage_meta.resources import CommentResource
 
 
 @admin.register(Comment)
-class CommentAdmin(ImportExportModelAdmin):
-    resource_class = CommentResource
+class CommentAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("id", "comment_id", "username", "like_count", "timestamp")
     search_fields = ("comment_id", "username", "text")
