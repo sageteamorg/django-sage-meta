@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_sage_meta.helper.mixins import AdditionalDataMixin
+from ..helper.choice import ContentFileEnum
 
 
 class Media(AdditionalDataMixin):
@@ -38,16 +39,7 @@ class Media(AdditionalDataMixin):
         help_text=_("Caption for the media"),
         db_comment="The caption or description of the media content",
     )
-    media_type = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-        verbose_name=_("Media Type"),
-        help_text=_("Type of media (e.g., image, video)"),
-        db_comment="The format or type of the media content",
-    )
-    media_url = models.JSONField(
-        default=list,
+    media_url = models.TextField(
         blank=True,
         verbose_name=_("Media URLs"),
         help_text=_("URLs for the media content"),
@@ -83,9 +75,22 @@ class Media(AdditionalDataMixin):
         db_comment="Comments related to the media content",
         related_name="media_comments",
     )
+    kind = models.CharField(
+        choices=ContentFileEnum.choices,
+        max_length=10,
+        null=True,
+        blank=True,
+        verbose_name=_("kind"),
+    )
+
+    carousel = models.BooleanField(default=False)
 
     def __repr__(self):
         return f"<Media(media_id={self.media_id}, caption={self.caption}, media_type={self.media_type})>"
 
     def __str__(self):
         return self.caption or ""
+    
+    class Meta:
+        verbose_name = _("media")
+        verbose_name_plural = _("medias")

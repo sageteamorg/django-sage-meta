@@ -45,9 +45,22 @@ class Story(AdditionalDataMixin):
         help_text=_("When the story was created"),
         db_comment="Timestamp indicating when the story was created",
     )
+    account = models.ForeignKey(
+        "InstagramAccount",
+        on_delete=models.CASCADE,
+        blank=True,
+        verbose_name=_("story_insta_user"),
+        help_text=_("List of stories posted by this account"),
+        db_comment="Stories posted by this Instagram account",
+        related_name="instagram_accounts",
+    )
 
     def __repr__(self):
         return f"<Story(story_id={self.story_id}, media_type={self.media_type}, media_url={self.media_url})>"
 
     def __str__(self):
         return self.story_id
+    
+    class Meta:
+        verbose_name = _("story")
+        verbose_name_plural = _("stories")

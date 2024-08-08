@@ -89,17 +89,14 @@ class InstagramAccount(AdditionalDataMixin):
         db_comment="Insights related to the Instagram account",
         related_name="instagram_accounts",
     )
-    stories = models.ManyToManyField(
-        "Story",
-        blank=True,
-        verbose_name=_("Stories"),
-        help_text=_("List of stories posted by this account"),
-        db_comment="Stories posted by this Instagram account",
-        related_name="instagram_accounts",
-    )
+    
 
     def __repr__(self):
         return f"<InstagramAccount(account_id={self.account_id}, username={self.username})>"
 
     def __str__(self):
         return self.username
+    
+    class Meta:
+        verbose_name = _("instagram account")
+        verbose_name_plural = _("instagram accounts")

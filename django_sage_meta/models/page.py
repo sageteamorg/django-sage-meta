@@ -74,3 +74,7 @@ class FacebookPageData(AdditionalDataMixin):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = _("facebook pagedata")
+        verbose_name_plural = _("facebook pagedatas")
