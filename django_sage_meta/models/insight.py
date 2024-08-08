@@ -64,3 +64,7 @@ class Insight(AdditionalDataMixin):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("insight")
+        verbose_name_plural = _("insights")

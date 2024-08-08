@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-
-
+from django.urls import path
 from django_sage_meta.models import Insight
-
+from django_sage_meta.repository import SyncService
+from django.http import HttpResponse
 
 @admin.register(Insight)
 class InsightAdmin(admin.ModelAdmin):
     save_on_top = True
+    change_list_template = "admin/email/insight.html"
     list_display = ("id", "insight_id", "name", "period", "title")
     search_fields = ("insight_id", "name", "title")
     search_help_text = _("Search by Insight ID, Name, or Title")
@@ -28,3 +29,23 @@ class InsightAdmin(admin.ModelAdmin):
             },
         ),
     )
+    
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "sync-insights/",
+                self.admin_site.admin_view(self.sync_insights),
+                name="sync_insights",
+            )
+        ]
+        return custom_urls + urls
+    
+    def sync_insights(self, request):
+        try:
+            SyncService.sync_insights()
+            self.message_user(request, _("Instagram insights synchronized successfully."))
+            return HttpResponse("Sync completed successfully.")
+
+        except Exception as e:
+            self.message_user(request, _(f"An error occurred: {e}"), level='error')

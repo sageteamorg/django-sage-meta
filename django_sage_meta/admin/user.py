@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-
-
-from django_sage_meta.models import UserData
-
+from django_sage_meta.models import UserData 
+from django.urls import path
+from django_sage_meta.repository import SyncService
+from django.http import HttpResponse
 
 @admin.register(UserData)
 class UserDataAdmin(admin.ModelAdmin):
     save_on_top = True
+    change_list_template = "admin/email/user.html"
     list_display = ("id", "user_id", "name", "email")
     search_fields = ("user_id", "name", "email")
     search_help_text = _("Search by User ID, Name, or Email")
@@ -18,3 +19,22 @@ class UserDataAdmin(admin.ModelAdmin):
         ("Pages", {"fields": ("pages",), "classes": ("collapse",)}),
     )
 
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "sync-users/",
+                self.admin_site.admin_view(self.sync_insta_user),
+                name="sync_users",
+            )
+        ]
+        return custom_urls + urls
+
+    def sync_insta_user(self, request):
+        try:
+            SyncService.sync_user_data()
+            self.message_user(request, _("Instagram users synchronized successfully."))
+            return HttpResponse("Sync completed successfully.")
+
+        except Exception as e:
+            self.message_user(request, _(f"An error occurred: {e}"), level='error')
