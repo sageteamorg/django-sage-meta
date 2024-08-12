@@ -16,49 +16,49 @@ class Comment(AdditionalDataMixin):
     """
 
     comment_id = models.CharField(
+        verbose_name=_("Comment ID"),
         max_length=255,
         unique=True,
-        verbose_name=_("Comment ID"),
-        db_comment="Primary key for the comment",
         help_text=_("Unique identifier for the comment"),
+        db_comment="Primary key for the comment",
     )
     text = models.TextField(
+        verbose_name=_("Text"),
         null=True,
         blank=True,
-        verbose_name=_("Text"),
-        db_comment="The content of the comment",
         help_text=_("Text of the comment"),
+        db_comment="The content of the comment",
     )
     username = models.CharField(
+        verbose_name=_("Username"),
         max_length=255,
         null=True,
         blank=True,
-        verbose_name=_("Username"),
-        db_comment="The username of the person who made the comment",
         help_text=_("Username of the commenter"),
+        db_comment="The username of the person who made the comment",
     )
-    like_count = models.IntegerField(
+    like_counts = models.IntegerField(
+        verbose_name=_("Like Counts"),
         null=True,
         blank=True,
-        verbose_name=_("Like Count"),
-        db_comment="The total number of likes the comment has received",
         help_text=_("Number of likes on the comment"),
+        db_comment="The total number of likes the comment has received",
     )
     timestamp = models.CharField(
+        verbose_name=_("Timestamp"),
         max_length=255,
         null=True,
         blank=True,
-        verbose_name=_("Timestamp"),
-        db_comment="Timestamp indicating when the comment was made",
         help_text=_("Timestamp of the comment"),
+        db_comment="Timestamp indicating when the comment was made",
     )
     media = models.ForeignKey(
-        'Media',
+        "Media",
+        verbose_name=_("Media"),
+        related_name="comments",
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='c_media',
-        verbose_name=_("Media"),
         help_text=_("The media this comment is associated with"),
         db_comment="The media this comment is associated with",
     )
@@ -67,8 +67,8 @@ class Comment(AdditionalDataMixin):
         return f"<Comment(comment_id={self.comment_id}, username={self.username}, text={self.text})>"
 
     def __str__(self):
-        return self.text or ""
+        return self.text
 
     class Meta:
-        verbose_name = _("comment")
-        verbose_name_plural = _("comments")
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
