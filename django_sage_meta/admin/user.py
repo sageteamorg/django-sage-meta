@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django_sage_meta.models import UserData 
 from django.urls import path
+from django.http import HttpResponseRedirect
+
+from django_sage_meta.models import UserData
 from django_sage_meta.repository import SyncService
-from django.http import HttpResponse
+
 
 @admin.register(UserData)
 class UserDataAdmin(admin.ModelAdmin):
@@ -14,10 +16,7 @@ class UserDataAdmin(admin.ModelAdmin):
     search_help_text = _("Search by User ID, Name, or Email")
     list_filter = ("email",)
     ordering = ("id",)
-    fieldsets = (
-        ("Content", {"fields": ("user_id", "name", "email")}),
-        ("Pages", {"fields": ("pages",), "classes": ("collapse",)}),
-    )
+    fieldsets = (("Content", {"fields": ("user_id", "name", "email")}),)
 
     def get_urls(self):
         urls = super().get_urls()
@@ -34,7 +33,7 @@ class UserDataAdmin(admin.ModelAdmin):
         try:
             SyncService.sync_user_data()
             self.message_user(request, _("Instagram users synchronized successfully."))
-            return HttpResponse("Sync completed successfully.")
+            return HttpResponseRedirect("/admin/django_sage_meta/userdata/")
 
         except Exception as e:
-            self.message_user(request, _(f"An error occurred: {e}"), level='error')
+            self.message_user(request, _(f"An error occurred: {e}"), level="error")

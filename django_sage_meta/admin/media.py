@@ -1,10 +1,19 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django_sage_meta.models import Media
 from django.urls import path
-from django_sage_meta.repository import SyncService
-from django_sage_meta.repository import PublisherService
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+
+
+from django_sage_meta.models import Media, Comment
+from django_sage_meta.repository import SyncService, PublisherService
+
+
+class CommentInline(admin.TabularInline):
+    model = Comment
+    extra = 1
+    fields = ("comment_id", "text", "username", "like_counts", "timestamp")
+    readonly_fields = ("comment_id",)
+
 
 @admin.register(Media)
 class MediaAdmin(admin.ModelAdmin):
@@ -14,18 +23,26 @@ class MediaAdmin(admin.ModelAdmin):
         "media_id",
         "caption",
         "kind",
-        "like_count",
-        "comments_count",
+        "like_counts",
+        "comments_counts",
         "username",
     )
     change_list_template = "admin/email/media.html"
     search_fields = ("media_id", "caption", "kind")
     search_help_text = _("Search by Media ID, Caption, or Media Type")
-    list_filter = ("kind", "like_count", "comments_count")
+    list_filter = ("kind", "like_counts", "comments_counts")
     ordering = ("id",)
-    autocomplete_fields = ["comments"]
+    inlines = [CommentInline]
 
     def get_urls(self):
+        """Returns the URLs used by this admin.
+
+        This method adds a custom URL for synchronizing media.
+
+        Returns:
+            list: A list of URL patterns.
+
+        """
         urls = super().get_urls()
         custom_urls = [
             path(
@@ -37,33 +54,76 @@ class MediaAdmin(admin.ModelAdmin):
         return custom_urls + urls
 
     def get_fieldsets(self, request, obj=None):
+        """Returns the fieldsets for the admin form.
+
+        For new objects, it returns a custom fieldset with the 'media_url', 'caption', 'kind', and 'carousel' fields.
+        For existing objects, it returns the default fieldsets.
+
+        Args:
+            request (HttpRequest): The current request object.
+            obj (Media, optional): The current media object. Defaults to None.
+
+        Returns:
+            list: A list of fieldsets.
+
+        """
         if obj is None:
             return [
-                (None, {
-                    'fields': ('media_url', 'caption', 'kind', 'carousel')
-                }),
+                (None, {"fields": ("media_url", "caption", "kind", "carousel")}),
             ]
         return super().get_fieldsets(request, obj)
 
     def sync_media(self, request):
+        """Synchronizes media by calling the SyncService.
+
+        This method attempts to synchronize media and returns an appropriate HttpResponse.
+
+        Args:
+            request (HttpRequest): The current request object.
+
+        Returns:
+            HttpResponse: An HttpResponse indicating success or failure.
+
+        """
         try:
             SyncService.sync_media()
             self.message_user(request, _("Instagram medias synchronized successfully."))
-            return HttpResponse("Sync completed successfully.")
+            return HttpResponseRedirect("/admin/django_sage_meta/media")
 
         except Exception as e:
-            self.message_user(request, _(f"An error occurred: {e}"), level='error')
+            self.message_user(request, _(f"An error occurred: {e}"), level="error")
 
     def save_model(self, request, obj, form, change):
-        media_url = form.cleaned_data.get('media_url')
-        caption = form.cleaned_data.get('caption')
-        kind = form.cleaned_data.get('kind')
-        carousel = form.cleaned_data.get('carousel')
+        """Saves the model and publishes the media using the PublisherService.
+
+        This method attempts to publish the media and displays a success or error message
+        based on the outcome.
+
+        Args:
+            request (HttpRequest): The current request object.
+            obj (Media): The media object being saved.
+            form (ModelForm): The form instance being used.
+            change (bool): A flag indicating whether the object is being changed or added.
+
+        """
+        media_url = form.cleaned_data.get("media_url")
+        caption = form.cleaned_data.get("caption")
+        kind = form.cleaned_data.get("kind")
+        carousel = form.cleaned_data.get("carousel")
 
         service = PublisherService()
         try:
             service.publish_media(obj)
-            self.message_user(request, _("Media published successfully with media_url: {}, caption: {}, kind: {}, carousel: {}").format(media_url, caption, kind, carousel))
+            self.message_user(
+                request,
+                _(
+                    "Media published successfully with media_url: {}, caption: {}, kind: {}, carousel: {}"
+                ).format(media_url, caption, kind, carousel),
+            )
         except Exception as e:
-            self.message_user(request, _(f"An error occurred while publishing media: {e}"), level='error')
+            self.message_user(
+                request,
+                _(f"An error occurred while publishing media: {e}"),
+                level="error",
+            )
         return

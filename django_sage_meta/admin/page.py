@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django_sage_meta.models import FacebookPageData, Category
-from sage_meta.service import FacebookClient
 from django.urls import path
+from django.http import HttpResponseRedirect
+
+from django_sage_meta.models import FacebookPageData
 from django_sage_meta.repository import SyncService
-from django.http import HttpResponse
 
 
 @admin.register(FacebookPageData)
@@ -18,10 +18,10 @@ class FacebookPageDataAdmin(admin.ModelAdmin):
     list_filter = ("category",)
     ordering = ("id",)
     fieldsets = (
-        ("Content", {"fields": ("page_id", "name", "category", "access_token")}),
+        ("Content", {"fields": ("page_id", "name", "access_token")}),
         (
             "Categories and Tasks",
-            {"fields": ("categories", "tasks"), "classes": ("collapse",)},
+            {"fields": ("category", "tasks"), "classes": ("collapse",)},
         ),
         (
             "Instagram Business Account",
@@ -45,7 +45,7 @@ class FacebookPageDataAdmin(admin.ModelAdmin):
         try:
             SyncService.sync_facebook_pages()
             self.message_user(request, _("Instagram pages synchronized successfully."))
-            return HttpResponse("Sync completed successfully.")
+            return HttpResponseRedirect("/admin/django_sage_meta/facebookpagedata")
 
         except Exception as e:
-            self.message_user(request, _(f"An error occurred: {e}"), level='error')
+            self.message_user(request, _(f"An error occurred: {e}"), level="error")

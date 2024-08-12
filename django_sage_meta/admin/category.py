@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django_sage_meta.models import Category
 from django.urls import path
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+
 from django_sage_meta.repository import SyncService
+from django_sage_meta.models import Category
 
 
 @admin.register(Category)
@@ -31,8 +32,12 @@ class CategoryAdmin(admin.ModelAdmin):
     def sync_categories(self, request):
         try:
             SyncService.sync_categories()
-            self.message_user(request, _("Instagram categories synchronized successfully."))
-            return HttpResponse("Sync completed successfully.")
+            self.message_user(
+                request, _("Instagram categories synchronized successfully.")
+            )
+            return HttpResponseRedirect(
+                "http://127.0.0.1:8000/admin/django_sage_meta/category/"
+            )
 
         except Exception as e:
-            self.message_user(request, _(f"An error occurred: {e}"), level='error')
+            self.message_user(request, _(f"An error occurred: {e}"), level="error")

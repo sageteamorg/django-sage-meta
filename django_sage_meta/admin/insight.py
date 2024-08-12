@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.urls import path
+from django.http import HttpResponseRedirect
+
 from django_sage_meta.models import Insight
 from django_sage_meta.repository import SyncService
-from django.http import HttpResponse
+
 
 @admin.register(Insight)
 class InsightAdmin(admin.ModelAdmin):
@@ -29,7 +31,7 @@ class InsightAdmin(admin.ModelAdmin):
             },
         ),
     )
-    
+
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
@@ -40,12 +42,14 @@ class InsightAdmin(admin.ModelAdmin):
             )
         ]
         return custom_urls + urls
-    
+
     def sync_insights(self, request):
         try:
             SyncService.sync_insights()
-            self.message_user(request, _("Instagram insights synchronized successfully."))
-            return HttpResponse("Sync completed successfully.")
+            self.message_user(
+                request, _("Instagram insights synchronized successfully.")
+            )
+            return HttpResponseRedirect("/admin/django_sage_meta/insight/")
 
         except Exception as e:
-            self.message_user(request, _(f"An error occurred: {e}"), level='error')
+            self.message_user(request, _(f"An error occurred: {e}"), level="error")
