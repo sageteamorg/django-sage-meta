@@ -38,7 +38,7 @@ class Story(AdditionalDataMixin):
     )
     account = models.ForeignKey(
         "InstagramAccount",
-        verbose_name=_("Account used for publishing the story"),
+        verbose_name=_("Instagram Account"),
         related_name="instagram_account",
         on_delete=models.CASCADE,
         blank=True,
