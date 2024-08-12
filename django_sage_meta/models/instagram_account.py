@@ -55,7 +55,6 @@ class InstagramAccount(AdditionalDataMixin):
         help_text=_("Biography of the account"),
         db_comment="The biography or bio of the Instagram account",
     )
-    
 
     def __repr__(self):
         return f"<InstagramAccount(account_id={self.account_id}, username={self.username})>"

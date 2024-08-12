@@ -5,6 +5,23 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class FacebookPageData(AdditionalDataMixin):
+    """
+    Represents a Facebook page within the application, capturing its core details 
+    and related associations. This model is designed to store key information such as 
+    the unique identifier for the page, its name, and the access token necessary 
+    for interacting with Facebook's API. 
+
+    Additionally, the model supports relationships to other entities, such as 
+    categories, users, and Instagram business accounts, allowing for a comprehensive 
+    representation of the Facebook page within the system.
+
+    The data stored in this model is primarily used for synchronization processes 
+    between Facebook and the local database, facilitated by service classes like 
+    SyncService. These processes ensure that the application's representation of 
+    Facebook pages remains up-to-date with the latest information available via 
+    Facebook's APIs.
+    """
+
     page_id = models.CharField(
         _("Page ID"),
         max_length=255,
@@ -21,10 +38,10 @@ class FacebookPageData(AdditionalDataMixin):
     access_token = models.CharField(
         _("Access Token"),
         max_length=255,
-        help_text=_("Access token for the Facebook page"),
-        db_comment="The token used to access the Facebook page API",
+        editable=False,
+        help_text=_("Access token for the Facebook page for access the graph api endpoint"),
+        db_comment="The token used to access the Facebook page API and without it we can not access the to database",
     )
-
     tasks = models.JSONField(
         _("Tasks"),
         default=list,

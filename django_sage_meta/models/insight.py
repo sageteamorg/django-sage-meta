@@ -68,6 +68,7 @@ class Insight(AdditionalDataMixin):
         help_text=_("List of insights for this account"),
         db_comment="Insights related to the Instagram account",
     )
+
     def __repr__(self):
         return f"<Insight(insight_id={self.insight_id}, name={self.name}, period={self.period})>"
 

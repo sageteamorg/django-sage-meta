@@ -5,6 +5,15 @@ from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class UserData(AdditionalDataMixin):
+    """
+    Represents a user within the system, storing key information such as the user's unique identifier,
+    name, and email address. This model serves as the central point of user-related data management 
+    in the application.
+
+    The `UserData` model is designed to facilitate the synchronization and management of user data 
+    from external services, ensuring that the application has up-to-date information about each user.
+
+    """
     user_id = models.CharField(
         _("User ID"),
         max_length=255,
