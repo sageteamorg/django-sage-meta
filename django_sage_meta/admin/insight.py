@@ -11,11 +11,20 @@ from django_sage_meta.repository import SyncService
 class InsightAdmin(admin.ModelAdmin):
     save_on_top = True
     change_list_template = "admin/email/insight.html"
-    list_display = ("id", "insight_id", "name", "period", "title")
+    list_display = ("name", "title", "kind")
     search_fields = ("insight_id", "name", "title")
     search_help_text = _("Search by Insight ID, Name, or Title")
     list_filter = ("period", "title", "description")
-    ordering = ("id",)
+    readonly_fields = (
+        "insight_id",
+        "period",
+        "title",
+        "description",
+        "name",
+        "media",
+        "values",
+    )
+    ordering = ("insight_id",)
     fieldsets = (
         (
             "Content",
@@ -27,6 +36,7 @@ class InsightAdmin(admin.ModelAdmin):
                     "values",
                     "title",
                     "description",
+                    "media",
                 )
             },
         ),
@@ -45,7 +55,7 @@ class InsightAdmin(admin.ModelAdmin):
 
     def sync_insights(self, request):
         try:
-            SyncService.sync_insights()
+            SyncService.sync_insights(1)
             self.message_user(
                 request, _("Instagram insights synchronized successfully.")
             )
