@@ -1,47 +1,38 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from django_sage_meta.helper.mixins import AdditionalDataMixin
 
 
 class UserData(AdditionalDataMixin):
-    """Model representing user data.
+    """
+    Represents a user within the system, storing key information such as the user's unique identifier,
+    name, and email address. This model serves as the central point of user-related data management 
+    in the application.
 
-    Attributes```python
-        user_id (str): The unique identifier for the user.
-        name (str): The name of the user.
-        email (str): The email of the user.
-        pages (list): The list of Facebook pages associated with the user.
+    The `UserData` model is designed to facilitate the synchronization and management of user data 
+    from external services, ensuring that the application has up-to-date information about each user.
 
     """
-
     user_id = models.CharField(
+        _("User ID"),
         max_length=255,
         unique=True,
-        verbose_name=_("User ID"),
         help_text=_("Unique identifier for the user"),
         db_comment="Primary key for the user",
     )
     name = models.CharField(
+        _("Name"),
         max_length=255,
-        verbose_name=_("Name"),
         help_text=_("Name of the user"),
         db_comment="The full name of the user",
     )
     email = models.EmailField(
+        _("Email"),
         null=True,
         blank=True,
-        verbose_name=_("Email"),
         help_text=_("Email of the user"),
         db_comment="The email address of the user",
-    )
-    pages = models.OneToOneField(
-        "FacebookPageData",
-        blank=True,
-        on_delete=models.CASCADE,
-        verbose_name=_("Pages"),
-        help_text=_("List of Facebook pages associated with the user"),
-        db_comment="Facebook pages linked to this user",
-        related_name="users",
     )
 
     def __repr__(self):
@@ -49,3 +40,7 @@ class UserData(AdditionalDataMixin):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("User data")
+        verbose_name_plural = _("User datas")

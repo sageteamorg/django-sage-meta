@@ -13,15 +13,15 @@ class Category(AdditionalDataMixin):
     """
 
     category_id = models.CharField(
+        verbose_name=_("Category ID"),
         max_length=255,
         unique=True,
-        verbose_name=_("Category ID"),
         help_text=_("Unique identifier for the category"),
         db_comment="Primary key for the category",
     )
     name = models.CharField(
-        max_length=255,
         verbose_name=_("Name"),
+        max_length=255,
         help_text=_("Name of the category"),
         db_comment="The name of the category",
     )
@@ -31,3 +31,7 @@ class Category(AdditionalDataMixin):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
