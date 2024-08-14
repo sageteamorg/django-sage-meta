@@ -11,7 +11,7 @@ from django_sage_meta.models import Category
 class CategoryAdmin(admin.ModelAdmin):
     save_on_top = True
     change_list_template = "admin/email/category.html"
-
+    readonly_fields = ("id", "name", "category_id")
     list_display = ("id", "category_id", "name")
     search_fields = ("category_id", "name")
     search_help_text = _("Search by Category ID or Name")

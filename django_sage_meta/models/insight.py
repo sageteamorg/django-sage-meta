@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_sage_meta.helper.mixins import AdditionalDataMixin
-
+from django_sage_meta.helper.choice import InsightKindEnum
 
 class Insight(AdditionalDataMixin):
     """Model representing an insight.
@@ -67,6 +67,25 @@ class Insight(AdditionalDataMixin):
         on_delete=models.CASCADE,
         help_text=_("List of insights for this account"),
         db_comment="Insights related to the Instagram account",
+    )
+    kind = models.CharField(
+        _("Kind"),
+        choices=InsightKindEnum.choices,
+        max_length=10,
+        null=True,
+        blank=True,
+        help_text=_("Insight kind"),
+        db_comment="What kind of insight is saving in db",
+    )
+    media = models.ForeignKey(
+        "Media",
+        verbose_name=_("media"),
+        related_name="insights",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        help_text=_("Media that this insight belongs to it"),
+        db_comment="Insights related to the media obj",
     )
 
     def __repr__(self):

@@ -5,7 +5,14 @@ from django.urls import path, reverse
 from django.shortcuts import redirect
 
 from django_sage_meta.repository import SyncService
-from django_sage_meta.models import InstagramAccount
+from django_sage_meta.models import InstagramAccount, Story
+
+
+class StoryInline(admin.TabularInline):
+    model = Story
+    extra = 0
+    readonly_fields = ("story_id", "media_type", "media_url", "timestamp")
+    can_delete = False
 
 
 @admin.register(InstagramAccount)
@@ -40,6 +47,7 @@ class InstagramAccountAdmin(admin.ModelAdmin):
             },
         ),
     )
+    inlines = [StoryInline]
 
     def get_urls(self):
         urls = super().get_urls()
